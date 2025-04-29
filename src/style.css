@@ -1,3 +1,82 @@
 body {
-    background-color: aqua;
+    display: flex; 
 }
+
+body > *{
+    /* outline: 1px solid red; */
+}
+
+.nav-bar{
+    height: 100vh;
+    flex: 1;
+    border-right: 1px solid gray;
+}
+
+.main{
+    flex: 5;
+}
+
+.content{
+    height: 100vh;
+}
+
+.quick-links{
+    border-bottom: 1px solid gray;
+}
+
+.project-links{
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & button{
+        font-size: small;
+        border-radius: 12px;
+    }
+}
+
+.project-links p{
+    margin: 0;
+}
+
+.quick-links, .project-links{
+    padding: 0 1rem;
+    font-size: 2rem;
+}
+
+ul:is(.quick-links, .project-links) {
+    list-style-type: none;
+}
+
+ul.quick-links{
+    padding-bottom: 2rem;
+    margin: 1rem;
+}
+
+
+div.hero{
+    padding-top: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+    border-bottom: 1px solid gray;
+
+    & p{
+        margin: 0;
+        font-size: 3rem;
+    }
+
+    & button{
+        margin-right: 2rem;
+        padding: 2px 1rem;
+        align-self: center;
+        border-radius: 12px;
+    }
+
+
+}
+
+
+
