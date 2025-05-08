@@ -1,3 +1,10 @@
+import { Todo } from "./todo_module";
+import { format, formatDistance } from "date-fns";
+
+let currentEditingTodoDiv = null;
+let currentEditingTodoInstance = null;
+
+
 const taskAdderButton = document.querySelector("#addTaskButton");
 
 function dialogOpen(){
@@ -19,6 +26,122 @@ function dialogOpen(){
 
 }
 
+
 taskAdderButton.addEventListener("click", dialogOpen);
+
+const taskAdderForm = document.querySelector(".taskAdderForm");
+
+taskAdderForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    let inputVals = taskAdderForm.elements;
+
+    if (currentEditingTodoDiv) {
+      // Update existing task UI
+      currentEditingTodoDiv.querySelector("p.taskName").innerText = inputVals[0].value;
+      currentEditingTodoInstance.title = inputVals[0].value;
+
+      currentEditingTodoInstance.description = inputVals[1].value;
+    
+      const dueText = `Due in ${formatDistance(inputVals[2].valueAsDate, new Date())}`;
+      currentEditingTodoDiv.querySelector("p.dueIn").innerText = dueText;
+      currentEditingTodoInstance.dueDate = inputVals[2].valueAsDate;
+    
+      let newPriority;
+      for (let i = 4; i < 7; i++) {
+        if (inputVals[i].checked) newPriority = inputVals[i].value;
+      }
+      currentEditingTodoInstance.priority = newPriority;
+
+      currentEditingTodoInstance.project = inputVals[3].value || null;
+    
+      let borderColor = newPriority == "high" ? "red" : newPriority == "medium" ? "yellow" : "lightgreen";
+      currentEditingTodoDiv.style.borderLeft = `10px solid ${borderColor}`;
+    
+      currentEditingTodoDiv = null; // Reset edit state
+      currentEditingTodoInstance = null;
+    } else {
+      displayTodo(inputVals); // Create new
+    }
+
+    taskAdderForm.reset();
+    const taskAdderDialog = document.querySelector(".taskAdder");
+    taskAdderDialog.close();
+})
+
+function displayTodo(inputs){
+  let title = inputs[0].value;
+  let desc = inputs[1].value;
+  let dueDate = inputs[2].valueAsDate;
+  let project = (inputs[3].value == "")? null: inputs[3].value;
+
+  let priority;
+
+  for(let i = 4; i < 7; i++){
+    if(inputs[i].checked == true) priority = inputs[i].value;
+  }
+
+  const todoTask = new Todo(title,desc,priority,dueDate,project);
+  console.log(todoTask);
+  // write persistent logic
+  
+  // creating the block
+  const todoDiv = document.createElement("div");
+  const taskName = document.createElement("p");
+  taskName.className = "taskName"
+  taskName.innerText = title;
+  taskName.setAttribute("style", "margin: 0")
+
+  todoDiv.appendChild(taskName);
+
+  const innerDiv = document.createElement("div")
+  const dueIn = document.createElement("p");
+  dueIn.className = "dueIn";
+  dueIn.innerText = `Due in ${formatDistance(dueDate, new Date())}`;
+  dueIn.setAttribute("style", "margin: 0")
+
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "del"
+  deleteButton.setAttribute("style", "margin: 0 3rem; margin-right: 1rem; border-radius: 10px; align-self: center; font-size: medium");
+  const completeTaskButton = document.createElement("input");
+  completeTaskButton.setAttribute("style", "width: 30px;");
+  completeTaskButton.type = "checkbox";
+
+  innerDiv.appendChild(dueIn);
+  innerDiv.appendChild(deleteButton);
+  innerDiv.appendChild(completeTaskButton);
+
+  innerDiv.setAttribute("style", "display: flex; gap: 5px; align-items: centre");
+
+  todoDiv.appendChild(innerDiv);
+  
+  let borderColor = priority == "high"? "red" : priority == "medium"? "yellow" : "lightgreen";
+
+  todoDiv.setAttribute("style",`display: flex; justify-content: space-between; border: 1px solid gray; border-left: 10px solid ${borderColor}; border-radius: 5px; margin: 1rem 0; font-size: 2rem; padding: 0 1rem; cursor: pointer`);
+
+  todoDiv.addEventListener("click", () => {
+    currentEditingTodoDiv = todoDiv;
+    currentEditingTodoInstance = todoTask;
+  
+    // Fill form inputs with existing values
+    inputs[0].value = todoTask.title;
+    inputs[1].value = todoTask.description;
+    inputs[2].value = format(todoTask.dueDate, "yyyy-MM-dd" );
+    inputs[3].value = todoTask.project || "";
+  
+    for (let i = 4; i < 7; i++) {
+      inputs[i].checked = (inputs[i].value === priority);
+    }
+  
+    dialogOpen();
+  });
+  
+
+  // display the task
+
+  const mainArea = document.querySelector(".content");
+  mainArea.setAttribute("style", "padding: 1rem")
+  mainArea.appendChild(todoDiv);
+
+}
 
 export { taskAdderButton };
