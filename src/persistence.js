@@ -18,3 +18,12 @@ export const persistHelper = {
         localStorage.removeItem(key.toString());
     }
 }
+
+
+export const projectPersistHelper = {
+    save: function(projectItem) {
+        let projects = JSON.parse(localStorage.getItem("projects")) || [];
+        projects.push(projectItem);
+        localStorage.setItem("projects", JSON.stringify(projects));
+    }
+}
