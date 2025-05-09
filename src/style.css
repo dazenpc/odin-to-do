@@ -41,16 +41,16 @@ body > *{
     margin: 0;
 }
 
-.quick-links, .project-links{
+.quick-links, .project-links, .user-added-projects{
     padding: 0 1rem;
     font-size: 2rem;
 }
 
-ul:is(.quick-links, .project-links) {
+ul:is(.quick-links, .project-links, .user-added-projects) {
     list-style-type: none;
 }
 
-ul.quick-links{
+ul.quick-links, ul.user-added-projects{
     padding-bottom: 2rem;
     margin: 1rem;
 }
@@ -109,4 +109,15 @@ textarea {
 
 .taskAdder {
     border-radius: 10px;
+}
+
+.user-created-item:hover {
+    box-shadow: 0 0 20px gray;
+    border-radius: 10px;
+    padding-left: 3%;
+}
+
+.user-created-item:active, .user-created-item:visited {
+    color: gray;
+    font-weight: bolder;
 }
