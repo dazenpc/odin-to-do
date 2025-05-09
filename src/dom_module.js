@@ -2,6 +2,7 @@ import { Todo } from "./todo_module";
 import { format, formatDistance } from "date-fns";
 import { persistHelper } from "./persistence";
 import { taskcompete } from "./reload";
+import { capitalizeFirstLetter, inProject } from "./project_loader";
 
 export const editingState = {
   currentEditingTodoDiv: null,
@@ -57,7 +58,7 @@ taskAdderForm.addEventListener("submit", (e)=>{
       }
       editingState.currentEditingTodoInstance.priority = newPriority;
 
-      editingState.currentEditingTodoInstance.project = inputVals[3].value || null;
+      editingState.currentEditingTodoInstance.project = inProject.name;
     
       let borderColor = newPriority == "high" ? "red" : newPriority == "medium" ? "yellow" : "lightgreen";
       editingState.currentEditingTodoDiv.style.borderLeft = `10px solid ${borderColor}`;
@@ -82,7 +83,7 @@ function displayTodo(inputs){
   let dueDate = inputs[2].valueAsDate;
   dueDate.setHours(dueDate.getHours() + 18);
   dueDate.setMinutes(dueDate.getMinutes() + 30);
-  let project = (inputs[3].value == "")? null: inputs[3].value;
+  let project = inProject.name;
 
   let priority;
 
@@ -99,7 +100,7 @@ function displayTodo(inputs){
   const todoDiv = document.createElement("div");
   const taskName = document.createElement("p");
   taskName.className = "taskName"
-  taskName.innerText = title;
+  taskName.innerText = capitalizeFirstLetter(title);
   taskName.setAttribute("style", "margin: 0")
 
   todoDiv.appendChild(taskName);
@@ -141,9 +142,8 @@ function displayTodo(inputs){
     inputs[0].value = todoTask.title;
     inputs[1].value = todoTask.description;
     inputs[2].value = format(todoTask.dueDate, "yyyy-MM-dd" );
-    inputs[3].value = todoTask.project || "";
   
-    for (let i = 4; i < 7; i++) {
+    for (let i = 3; i < 6; i++) {
       inputs[i].checked = (inputs[i].value === priority);
     }
   
