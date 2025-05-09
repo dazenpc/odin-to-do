@@ -6,18 +6,46 @@ export class Todo{
     #project;
     #priority; 
     #isCompleted;
+    #key;
 
 
-    constructor(title, description, priority, dueDate, project = null, isCompleted = false) {
+    constructor(title, description, priority, dueDate, key, project = null, isCompleted = false) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.project = project;
         this.priority = priority;
         this.isCompleted = isCompleted;
+        this.key = key;
     }
 
-    // Getters
+    // functions
+
+    toJSON() {
+        return {
+            title: this.title,
+            description: this.description,
+            dueDate: this.dueDate instanceof Date ? this.dueDate.toISOString() : this.dueDate,
+            project: this.project,
+            key: this.key,
+            priority: this.priority,
+            isCompleted: this.isCompleted
+        };
+    }
+
+    static reviewTodo(jsonObj){
+        return new Todo(
+            jsonObj.title,
+            jsonObj.description,
+            jsonObj.priority,
+            new Date(jsonObj.dueDate),
+            jsonObj.key,
+            jsonObj.project,
+            jsonObj.isCompleted
+        )
+    }
+
+    // Setters
 
     /**
      * @param {string} value
@@ -61,7 +89,14 @@ export class Todo{
         this.#isCompleted = value;
     }
 
-    // Setters
+    /**
+     * @param {number} value
+     */
+    set key(value){
+        this.#key = value;
+    }
+
+    // Getters
 
     get title(){
         return this.#title;
@@ -85,6 +120,10 @@ export class Todo{
 
     get isCompleted(){
         return this.#isCompleted;
+    }
+
+    get key(){
+        return this.#key;
     }
 
 }
