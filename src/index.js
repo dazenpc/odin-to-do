@@ -1,5 +1,9 @@
 import "./style.css";
 import "normalize.css";
-import { taskAdderButton } from "./dom_module";
+import { consoleIt } from "./reload";
+
+consoleIt();
+
+
 
 
