@@ -84,6 +84,12 @@ function display(todoTask){
           persistHelper.update(todoTask.key, JSON.stringify(todoTask));
           taskcompete(innerDiv, completeTaskButton, dueIn, taskName);
         })
+
+      deleteButton.addEventListener("click", (e)=>{
+          e.stopPropagation();
+          persistHelper.delete(todoTask.key);
+          mainArea.removeChild(todoDiv);
+        })
       
     
       // display the task
