@@ -2,17 +2,18 @@ import { editingState, dialogOpen } from "./dom_module";
 import { Todo } from "./todo_module";
 import { formatDistance, format } from "date-fns";
 import { persistHelper } from "./persistence";
+import { capitalizeFirstLetter } from "./project_loader";
 
-let indexAvailable = localStorage.getItem("0")? true : false;
+let indexAvailable = localStorage.getItem("index")? true : false;
 
 export function consoleIt(){
     console.log(indexAvailable);
     
     if(indexAvailable){
-        let index = 0;
+        let index = parseInt(localStorage.getItem("index")) - 1;
         while(localStorage.getItem(index.toString())){
             let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
-            index++;
+            index--;
             if(!todoTask.isCompleted) display(todoTask);
         }
     }
@@ -27,7 +28,7 @@ function display(todoTask){
       const todoDiv = document.createElement("div");
       const taskName = document.createElement("p");
       taskName.className = "taskName"
-      taskName.innerText = todoTask.title;
+      taskName.innerText = capitalizeFirstLetter(todoTask.title);
       taskName.setAttribute("style", "margin: 0")
     
       todoDiv.appendChild(taskName);
@@ -69,9 +70,8 @@ function display(todoTask){
         inputs[0].value = todoTask.title;
         inputs[1].value = todoTask.description;
         inputs[2].value = format(todoTask.dueDate, "yyyy-MM-dd" );
-        inputs[3].value = todoTask.project || "";
       
-        for (let i = 4; i < 7; i++) {
+        for (let i = 3; i < 6; i++) {
           inputs[i].checked = (inputs[i].value === todoTask.priority);
         }
       
@@ -105,3 +105,4 @@ export function taskcompete(innerDiv, completeTaskButton, dueIn, taskName) {
           innerDiv.removeChild(dueIn);
           taskName.setAttribute("style", "text-decoration: line-through; margin: 0");
 }
+
