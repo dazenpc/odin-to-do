@@ -18,6 +18,14 @@
         <ul class="project-links">
             <p>Projects</p>
             <button>+ add project</button>
+            <dialog>
+                <form action="">
+                    <label>Project Name: <input type="text" name="project-name" required></label>
+                    <button type="submit">OK</button>
+                </form>
+            </dialog>
+        </ul>
+        <ul class="user-added-projects">
         </ul>
     </div>
     <div class="main">
@@ -37,10 +45,6 @@
                     <label for="dueDate">
                         Due Date
                         <input type="date" name="dueDate" id="dueDate" required>
-                    </label>
-                    <label for="project">
-                        Project
-                        <input type="text" name="project" id="project">
                     </label>
                     <label for="priority">
                         Priority
