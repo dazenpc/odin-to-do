@@ -12,5 +12,9 @@ export const persistHelper = {
 
     getIndex: function(){
         return parseInt(localStorage.getItem("index") || "0", 10);
+    },
+
+    delete: function(key){
+        localStorage.removeItem(key.toString());
     }
 }
