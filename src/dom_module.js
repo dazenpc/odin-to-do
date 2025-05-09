@@ -1,6 +1,7 @@
 import { Todo } from "./todo_module";
 import { format, formatDistance } from "date-fns";
 import { persistHelper } from "./persistence";
+import { taskcompete } from "./reload";
 
 export const editingState = {
   currentEditingTodoDiv: null,
@@ -129,6 +130,8 @@ function displayTodo(inputs){
 
   todoDiv.setAttribute("style",`display: flex; justify-content: space-between; border: 1px solid gray; border-left: 10px solid ${borderColor}; border-radius: 5px; margin: 1rem 0; font-size: 2rem; padding: 0 1rem; cursor: pointer`);
 
+// Event listeners
+
   todoDiv.addEventListener("click", () => {
     editingState.currentEditingTodoDiv = todoDiv;
     editingState.currentEditingTodoInstance = todoTask;
@@ -146,6 +149,13 @@ function displayTodo(inputs){
   
     dialogOpen();
   });
+
+  completeTaskButton.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    todoTask.isCompleted = true;
+    persistHelper.update(todoTask.key, JSON.stringify(todoTask));
+    taskcompete(innerDiv, completeTaskButton, dueIn, taskName);
+  })
   
 
   // display the task

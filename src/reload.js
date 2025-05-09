@@ -1,6 +1,7 @@
 import { editingState, dialogOpen } from "./dom_module";
 import { Todo } from "./todo_module";
 import { formatDistance, format } from "date-fns";
+import { persistHelper } from "./persistence";
 
 let indexAvailable = localStorage.getItem("0")? true : false;
 
@@ -12,7 +13,7 @@ export function consoleIt(){
         while(localStorage.getItem(index.toString())){
             let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
             index++;
-            display(todoTask);
+            if(!todoTask.isCompleted) display(todoTask);
         }
     }
     else{
@@ -76,6 +77,13 @@ function display(todoTask){
       
         dialogOpen();
       });
+
+      completeTaskButton.addEventListener("click", (e)=>{
+          e.stopPropagation();
+          todoTask.isCompleted = true;
+          persistHelper.update(todoTask.key, JSON.stringify(todoTask));
+          taskcompete(innerDiv, completeTaskButton, dueIn, taskName);
+        })
       
     
       // display the task
@@ -84,4 +92,10 @@ function display(todoTask){
       mainArea.setAttribute("style", "padding: 1rem")
       mainArea.appendChild(todoDiv);
     
+}
+
+export function taskcompete(innerDiv, completeTaskButton, dueIn, taskName) {
+          innerDiv.removeChild(completeTaskButton);
+          innerDiv.removeChild(dueIn);
+          taskName.setAttribute("style", "text-decoration: line-through; margin: 0");
 }
