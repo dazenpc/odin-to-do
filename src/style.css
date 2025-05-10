@@ -117,7 +117,19 @@ textarea {
     padding-left: 3%;
 }
 
-.user-created-item:active, .user-created-item:visited {
+.user-created-item:active {
+    color: gray;
+    font-weight: bolder;
+}
+
+.quick-links li:hover {
+    cursor: pointer;
+    box-shadow: 0 0 20px gray;
+    border-radius: 10px;
+    padding-left: 3%;
+}
+
+.quick-links li:active {
     color: gray;
     font-weight: bolder;
 }
