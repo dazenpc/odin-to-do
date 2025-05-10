@@ -25,5 +25,12 @@ export const projectPersistHelper = {
         let projects = JSON.parse(localStorage.getItem("projects")) || [];
         projects.push(projectItem);
         localStorage.setItem("projects", JSON.stringify(projects));
+    },
+
+    delete: function(projectName){
+        let projects = JSON.parse(localStorage.getItem("projects"));
+        let index = projects.findIndex(project => project == projectName);
+        projects.splice(index,1);
+        localStorage.setItem("projects", JSON.stringify(projects));
     }
 }
