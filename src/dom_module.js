@@ -87,12 +87,12 @@ function displayTodo(inputs){
 
   let priority;
 
-  for(let i = 4; i < 7; i++){
+  for(let i = 3; i < 6; i++){
     if(inputs[i].checked == true) priority = inputs[i].value;
   }
 
   let todoTaskKey = persistHelper.getIndex()
-  const todoTask = new Todo(title,desc,priority,dueDate,todoTaskKey, project);
+  const todoTask = new Todo(title, desc, priority, dueDate, todoTaskKey, project);
   persistHelper.save(JSON.stringify(todoTask));
   console.log(todoTask);
   
