@@ -1,6 +1,6 @@
 import { projectPersistHelper, persistHelper } from "./persistence";
 import { Todo } from "./todo_module";
-import { consoleIt } from "./reload";
+import { display } from "./reload";
 
 let projectAdder = document.querySelector(".project-links button");
 let projectAdderDialog = document.querySelector(".project-links dialog");
@@ -49,6 +49,7 @@ projectAdderForm.addEventListener("submit", (e)=>{
     userCreatedProject.addEventListener("click", ()=>{
         titleCard.innerText = projectName;
         inProject.name = projectName;
+        loadProjectTasks(projectName);
         console.log(inProject);
     })
     
@@ -92,6 +93,25 @@ export function deleteProjectAndTask(project) {
         }
     // reload to all tasks
     location.reload();
+}
+
+export function loadProjectTasks(projectName) {
+    console.log("pressed");
+    const mainArea = document.querySelector(".content");
+    mainArea.setAttribute("style", "padding: 1rem");
+
+    mainArea.replaceChildren();
+
+    let indexAvailable = localStorage.getItem("index")? true : false;
+
+    if(indexAvailable){
+            let index = parseInt(localStorage.getItem("index")) - 1;
+            while(localStorage.getItem(index.toString())){
+                let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
+                index--;
+                if(todoTask.project == projectName) display(todoTask);
+            }
+        }
 }
 
 
