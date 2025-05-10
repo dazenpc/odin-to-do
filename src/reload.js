@@ -3,11 +3,14 @@ import { Todo } from "./todo_module";
 import { formatDistance, format } from "date-fns";
 import { persistHelper } from "./persistence";
 import { capitalizeFirstLetter } from "./project_loader";
+import { inProject, titleCard, deleteProjectAndTask } from "./project_loader";
 
 let indexAvailable = localStorage.getItem("index")? true : false;
+let projectsAvailable = localStorage.getItem("projects")? true: false;
 
 export function consoleIt(){
     console.log(indexAvailable);
+    console.log(projectsAvailable);
     
     if(indexAvailable){
         let index = parseInt(localStorage.getItem("index")) - 1;
@@ -18,7 +21,42 @@ export function consoleIt(){
         }
     }
     else{
-        console.log("no index is there")
+        console.log("End of tasks")
+    }
+
+    if(projectsAvailable){
+      const projectsArray = JSON.parse(localStorage.getItem("projects"));
+      let userAddedProjectList = document.querySelector("ul.user-added-projects");
+      for(let project of projectsArray){
+        let userAddedProject = document.createElement("li");
+        let deleteProject = document.createElement("button");
+        deleteProject.textContent = "D"
+
+        userAddedProject.innerText = project;
+
+
+        deleteProject.addEventListener("click", (e)=>{
+                e.stopPropagation();
+                deleteProjectAndTask(project);
+            });
+
+        userAddedProject.appendChild(deleteProject);
+        userAddedProjectList.appendChild(userAddedProject);
+
+        userAddedProject.setAttribute("style", "cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;");
+        userAddedProject.classList.add("user-created-item");
+
+        userAddedProject.addEventListener("click", ()=>{
+                titleCard.innerText = project;
+                inProject.name = project;
+                console.log(inProject);
+            })
+
+      }
+
+    }
+    else{
+      console.log("end of projects");
     }
 
 }
