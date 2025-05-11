@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="0640993d7af34cd9bb31.ico">
+    <title>To-Doink</title>
+<script defer src="main.js"></script></head>
+<body>
+
+    <div class="nav-bar">
+        <ul class="quick-links">
+            <li>All tasks</li>
+            <li>Today</li>
+            <li>Upcoming</li>
+            <li>Completed</li>
+        </ul>
+        <ul class="project-links">
+            <p>Projects</p>
+            <button>+ add project</button>
+            <dialog>
+                <form action="">
+                    <label>Project Name: <input type="text" name="project-name" required maxlength="10" minlength="1"></label>
+                    <button type="submit">OK</button>
+                </form>
+            </dialog>
+        </ul>
+        <ul class="user-added-projects">
+        </ul>
+    </div>
+    <div class="main">
+        <div class="hero"> 
+            <p class="title">All Tasks</p>
+            <button id="addTaskButton">+ add task</button>
+            <dialog class="taskAdder">
+                <form action="" class="taskAdderForm">
+                    <label for="title">
+                        Title
+                        <input type="text" name="title" id="title" required>
+                    </label>
+                    <label for="desc">
+                        Description
+                        <textarea name="description" id="desc" rows="7" cols="21"></textarea>
+                    </label>
+                    <label for="dueDate">
+                        Due Date
+                        <input type="date" name="dueDate" id="dueDate" required>
+                    </label>
+                    <label for="priority">
+                        Priority
+                        <input type="radio" name="priority" id="priority" value="high" required>High
+                        <input type="radio" name="priority" id="priority" value="medium">Medium
+                        <input type="radio" name="priority" id="priority" value="low">Low
+                    </label>
+                    <button type="submit">OK</button>
+                </form>
+            </dialog>
+        </div>
+        <div class="content"></div>
+    </div>
+    
+</body>
+</html>
