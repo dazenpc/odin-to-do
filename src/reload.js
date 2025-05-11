@@ -3,7 +3,7 @@ import { Todo } from "./todo_module";
 import { formatDistance, format } from "date-fns";
 import { persistHelper } from "./persistence";
 import { capitalizeFirstLetter } from "./project_loader";
-import { inProject, titleCard, deleteProjectAndTask } from "./project_loader";
+import { inProject, titleCard, deleteProjectAndTask, loadProjectTasks } from "./project_loader";
 
 let indexAvailable = localStorage.getItem("index")? true : false;
 let projectsAvailable = localStorage.getItem("projects")? true: false;
@@ -13,15 +13,17 @@ export function consoleIt(){
     console.log(projectsAvailable);
     
     if(indexAvailable){
-        let index = parseInt(localStorage.getItem("index")) - 1;
-        while(localStorage.getItem(index.toString())){
+        let index = parseInt(localStorage.getItem("index"));
+        while(index != -1){
+          if(localStorage.getItem(index.toString())){
             let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
-            index--;
             if(!todoTask.isCompleted) display(todoTask);
+          }
+          index--;
         }
     }
     else{
-        console.log("End of tasks")
+        console.log("No index available")
     }
 
     if(projectsAvailable){
@@ -49,6 +51,7 @@ export function consoleIt(){
         userAddedProject.addEventListener("click", ()=>{
                 titleCard.innerText = project;
                 inProject.name = project;
+                loadProjectTasks(project);
                 console.log(inProject);
             })
 
@@ -61,7 +64,7 @@ export function consoleIt(){
 
 }
 
-function display(todoTask){
+export function display(todoTask){
     // creating the block
       const todoDiv = document.createElement("div");
       const taskName = document.createElement("p");

@@ -76,15 +76,17 @@ export function deleteProjectAndTask(project) {
     // remove all the tasks from the local storage which has the given project name
     let indexAvailable = localStorage.getItem("index")? true : false;
     if(indexAvailable){
-            let index = parseInt(localStorage.getItem("index")) - 1;
+            let index = parseInt(localStorage.getItem("index"));
             let mainIndex = index;
-            while(localStorage.getItem(index.toString())){
+            while(index != -1){
+                if(localStorage.getItem(index.toString())){
                 let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
                 if(todoTask.project == project){
                     persistHelper.delete(index);
                     let updated = mainIndex -1;
                     localStorage.setItem("index", updated.toString());
                 }
+            }
                 index--;
             }
         }
@@ -105,11 +107,13 @@ export function loadProjectTasks(projectName) {
     let indexAvailable = localStorage.getItem("index")? true : false;
 
     if(indexAvailable){
-            let index = parseInt(localStorage.getItem("index")) - 1;
-            while(localStorage.getItem(index.toString())){
+            let index = parseInt(localStorage.getItem("index"));
+            while(index != -1){
+                if(localStorage.getItem(index.toString())){
                 let todoTask = Todo.reviewTodo(JSON.parse(localStorage.getItem(index.toString())));
-                index--;
                 if(todoTask.project == projectName) display(todoTask);
+            }
+            index--;
             }
         }
 }
