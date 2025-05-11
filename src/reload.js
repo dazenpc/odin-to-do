@@ -131,6 +131,10 @@ export function display(todoTask){
           persistHelper.delete(todoTask.key);
           mainArea.removeChild(todoDiv);
         })
+
+      if(todoTask.isCompleted){
+        taskcompete(innerDiv, completeTaskButton, dueIn, taskName);
+      }
       
     
       // display the task
