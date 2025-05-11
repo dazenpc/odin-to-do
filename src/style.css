@@ -3,10 +3,6 @@ body {
     box-sizing: border-box;
 }
 
-body > *{
-    /* outline: 1px solid red; */
-}
-
 .nav-bar{
     height: 100vh;
     flex: 1;
